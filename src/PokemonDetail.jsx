@@ -37,11 +37,6 @@ const typeNames = {
   water: "みず",
 };
 
-const flavorTextByLanguage = {
-  ja: "種族名",
-  en: "Species Name",
-};
-
 function PokemonDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -360,10 +355,7 @@ function PokemonDetail() {
                     <List>
                       {encounters.map((encounter, index) => (
                         <ListItem key={index}>
-                          <ListItemText
-                            primary={encounter.name}
-                            secondary={encounter.url}
-                          />
+                          <ListItemText primary={encounter.name} />
                         </ListItem>
                       ))}
                     </List>
