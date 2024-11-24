@@ -106,7 +106,6 @@ function PokemonGetImg() {
       <Container maxWidth="xl">
         <Box sx={{ flexGrow: 1, padding: 2 }}>
           <Grid container spacing={2}>
-            {/* ダークモード切り替えボタンをヘッダーに追加 */}
             <Grid item xs={12} align="right">
               <Button
                 variant="contained"

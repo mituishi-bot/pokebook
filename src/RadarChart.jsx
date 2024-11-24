@@ -1,4 +1,3 @@
-// RadarChart.jsx
 import React from "react";
 import { Radar } from "react-chartjs-2";
 import {
@@ -11,7 +10,6 @@ import {
   Legend,
 } from "chart.js";
 
-// Chart.js のコンポーネントを登録
 ChartJS.register(
   RadialLinearScale,
   PointElement,

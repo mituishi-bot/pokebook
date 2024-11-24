@@ -12,6 +12,8 @@ import {
   ListItem,
   ListItemText,
   Button,
+  ThemeProvider,
+  createTheme,
 } from "@mui/material";
 import axios from "axios";
 import RadarChart from "./RadarChart";
@@ -48,6 +50,14 @@ function PokemonDetail() {
   const [showEvolutionChain, setShowEvolutionChain] = useState(false);
   const [showStats, setShowStats] = useState(false);
   const [flavorText, setFlavorText] = useState("");
+  const [darkMode, setDarkMode] = useState(false); // ダークモードのステート
+
+  // テーマの設定
+  const theme = createTheme({
+    palette: {
+      mode: darkMode ? "dark" : "light",
+    },
+  });
 
   useEffect(() => {
     const fetchPokemon = async () => {
@@ -188,249 +198,259 @@ function PokemonDetail() {
   };
 
   return (
-    <Container maxWidth="lg">
-      <Box sx={{ flexGrow: 1, bgcolor: "#e0f7fa", padding: 2 }}>
+    <ThemeProvider theme={theme}>
+      <Container maxWidth="lg">
         <Box
           sx={{
-            position: "fixed",
-            bottom: 16,
-            left: 16,
-            zIndex: 10,
+            flexGrow: 1,
+            bgcolor: darkMode ? "#424242" : "#e0f7fa",
+            padding: 2,
           }}
         >
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => navigate("/")}
-            size="large"
-            sx={{
-              fontSize: "1.25rem",
-              padding: "12px 24px",
-              boxShadow: 3,
-            }}
-          >
-            戻る
-          </Button>
-        </Box>
-        {pokemon ? (
-          <Grid container spacing={4}>
-            <Grid item xs={12} md={6}>
-              <Card
-                sx={{
-                  maxWidth: 700,
-                  margin: "auto",
-                  boxShadow: 3,
-                  borderRadius: 2,
-                }}
-              >
-                <Typography
-                  variant="h3"
-                  align="center"
-                  gutterBottom
+          <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => setDarkMode((prev) => !prev)}
+            >
+              {darkMode ? "ライトモードに切り替え" : "ダークモードに切り替え"}
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => navigate("/")}
+              size="large"
+              sx={{
+                fontSize: "1.25rem",
+                padding: "12px 24px",
+                boxShadow: 3,
+              }}
+            >
+              戻る
+            </Button>
+          </Box>
+          {pokemon ? (
+            <Grid container spacing={4}>
+              <Grid item xs={12} md={6}>
+                <Card
                   sx={{
-                    fontSize: "4.5rem",
-                    fontWeight: "bold",
-                    color: "#00796b",
+                    maxWidth: 700,
+                    margin: "auto",
+                    boxShadow: 3,
+                    borderRadius: 2,
                   }}
                 >
-                  {pokemon.name}
-                </Typography>
-                <CardMedia
-                  component="img"
-                  alt={pokemon.name}
-                  height="400"
-                  image={pokemon.image}
-                  sx={{
-                    objectFit: "contain",
-                    width: "100%",
-                  }}
-                />
-              </Card>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Card
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  height: "100%",
-                  boxShadow: 3,
-                  borderRadius: 2,
-                }}
-              >
-                <CardContent>
-                  <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-                    基本情報
-                  </Typography>
-                  <List>
-                    <ListItem>
-                      <ListItemText
-                        primary="高さ"
-                        secondary={`${pokemon.height} m`}
-                      />
-                    </ListItem>
-                    <ListItem>
-                      <ListItemText
-                        primary="重さ"
-                        secondary={`${pokemon.weight} kg`}
-                      />
-                    </ListItem>
-                    <ListItem>
-                      <ListItemText
-                        primary="タイプ"
-                        secondary={pokemon.types}
-                      />
-                    </ListItem>
-                    <ListItem>
-                      <ListItemText primary="説明" secondary={flavorText} />
-                    </ListItem>
-                  </List>
-                </CardContent>
-                <Box sx={{ textAlign: "center", padding: 2 }}>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={() => setShowStats((prev) => !prev)}
+                  <Typography
+                    variant="h3"
+                    align="center"
+                    gutterBottom
+                    sx={{
+                      fontSize: "4.5rem",
+                      fontWeight: "bold",
+                      color: darkMode ? "#81d4fa" : "#00796b",
+                    }}
                   >
-                    {showStats
-                      ? "レーダーチャートを非表示"
-                      : "レーダーチャートを表示"}
+                    {pokemon.name}
+                  </Typography>
+                  <CardMedia
+                    component="img"
+                    alt={pokemon.name}
+                    height="400"
+                    image={pokemon.image}
+                    sx={{
+                      objectFit: "contain",
+                      width: "100%",
+                    }}
+                  />
+                </Card>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Card
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    height: "100%",
+                    boxShadow: 3,
+                    borderRadius: 2,
+                  }}
+                >
+                  <CardContent>
+                    <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                      基本情報
+                    </Typography>
+                    <List>
+                      <ListItem>
+                        <ListItemText
+                          primary="高さ"
+                          secondary={`${pokemon.height} m`}
+                        />
+                      </ListItem>
+                      <ListItem>
+                        <ListItemText
+                          primary="重さ"
+                          secondary={`${pokemon.weight} kg`}
+                        />
+                      </ListItem>
+                      <ListItem>
+                        <ListItemText
+                          primary="タイプ"
+                          secondary={pokemon.types}
+                        />
+                      </ListItem>
+                      <ListItem>
+                        <ListItemText primary="説明" secondary={flavorText} />
+                      </ListItem>
+                    </List>
+                  </CardContent>
+                  <Box sx={{ textAlign: "center", padding: 2 }}>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={() => setShowStats((prev) => !prev)}
+                    >
+                      {showStats
+                        ? "レーダーチャートを非表示"
+                        : "レーダーチャートを表示"}
+                    </Button>
+                  </Box>
+                  {showStats && (
+                    <CardContent>
+                      <RadarChart stats={pokemon.stats} />
+                    </CardContent>
+                  )}
+                </Card>
+              </Grid>
+              <Grid item xs={12}>
+                <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => setShowDetails((prev) => !prev)}
+                  >
+                    {showDetails ? "詳細を隠す" : "詳細を表示"}
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => setShowEncounters((prev) => !prev)}
+                  >
+                    {showEncounters ? "出現場所を隠す" : "出現場所を表示"}
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => setShowEvolutionChain((prev) => !prev)}
+                  >
+                    {showEvolutionChain ? "進化情報を隠す" : "進化情報を表示"}
                   </Button>
                 </Box>
-                {showStats && (
-                  <CardContent>
-                    <RadarChart stats={pokemon.stats} />
-                  </CardContent>
-                )}
-              </Card>
-            </Grid>
-            <Grid item xs={12}>
-              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  onClick={() => setShowDetails((prev) => !prev)}
-                >
-                  {showDetails ? "詳細を隠す" : "詳細を表示"}
-                </Button>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  onClick={() => setShowEncounters((prev) => !prev)}
-                >
-                  {showEncounters ? "出現場所を隠す" : "出現場所を表示"}
-                </Button>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  onClick={() => setShowEvolutionChain((prev) => !prev)}
-                >
-                  {showEvolutionChain ? "進化情報を隠す" : "進化情報を表示"}
-                </Button>
-              </Box>
-              {showDetails && (
-                <Card sx={{ marginTop: 2, boxShadow: 3, borderRadius: 2 }}>
-                  <CardContent>
-                    <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-                      特性
-                    </Typography>
-                    <List>
-                      {pokemon.abilities.map((ability, index) => (
-                        <ListItem key={index}>
-                          <ListItemText
-                            primary={ability.name}
-                            secondary={ability.description}
-                          />
-                        </ListItem>
-                      ))}
-                    </List>
-                  </CardContent>
-                </Card>
-              )}
-              {showEncounters && (
-                <Card sx={{ marginTop: 2, boxShadow: 3, borderRadius: 2 }}>
-                  <CardContent>
-                    <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-                      出現場所
-                    </Typography>
-                    <List>
-                      {encounters.map((encounter, index) => (
-                        <ListItem key={index}>
-                          <ListItemText primary={encounter.name} />
-                        </ListItem>
-                      ))}
-                    </List>
-                  </CardContent>
-                </Card>
-              )}
-              {showEvolutionChain && (
-                <Grid item xs={12}>
+                {showDetails && (
                   <Card sx={{ marginTop: 2, boxShadow: 3, borderRadius: 2 }}>
                     <CardContent>
                       <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-                        進化情報
+                        特性
                       </Typography>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          flexDirection: "row",
-                          overflowX: "auto",
-                        }}
-                      >
-                        {evolutionChain.map((evolution, index) => (
-                          <Box
-                            key={index}
-                            sx={{
-                              display: "flex",
-                              flexDirection: "column",
-                              alignItems: "center",
-                              marginX: 1,
-                            }}
-                          >
-                            <Typography
-                              variant="body1"
-                              sx={{
-                                cursor: "pointer",
-                                textAlign: "center",
-                                marginBottom: 1,
-                              }}
-                              onClick={() =>
-                                handleEvolutionClick(evolution.species_url)
-                              }
-                            >
-                              {evolution.species_name}
-                            </Typography>
-                            {evolution.min_level && (
-                              <Typography
-                                variant="body2"
-                                sx={{ textAlign: "center" }}
-                              >
-                                進化レベル: {evolution.min_level}
-                              </Typography>
-                            )}
-                            {!evolution.min_level && evolution.trigger_name && (
-                              <Typography
-                                variant="body2"
-                                sx={{ textAlign: "center" }}
-                              >
-                                進化トリガー: {evolution.trigger_name}
-                              </Typography>
-                            )}
-                          </Box>
+                      <List>
+                        {pokemon.abilities.map((ability, index) => (
+                          <ListItem key={index}>
+                            <ListItemText
+                              primary={ability.name}
+                              secondary={ability.description}
+                            />
+                          </ListItem>
                         ))}
-                      </Box>
+                      </List>
                     </CardContent>
                   </Card>
-                </Grid>
-              )}
+                )}
+                {showEncounters && (
+                  <Card sx={{ marginTop: 2, boxShadow: 3, borderRadius: 2 }}>
+                    <CardContent>
+                      <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                        出現場所
+                      </Typography>
+                      <List>
+                        {encounters.map((encounter, index) => (
+                          <ListItem key={index}>
+                            <ListItemText primary={encounter.name} />
+                          </ListItem>
+                        ))}
+                      </List>
+                    </CardContent>
+                  </Card>
+                )}
+                {showEvolutionChain && (
+                  <Grid item xs={12}>
+                    <Card sx={{ marginTop: 2, boxShadow: 3, borderRadius: 2 }}>
+                      <CardContent>
+                        <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+                          進化情報
+                        </Typography>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            flexDirection: "row",
+                            overflowX: "auto",
+                          }}
+                        >
+                          {evolutionChain.map((evolution, index) => (
+                            <Box
+                              key={index}
+                              sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "center",
+                                marginX: 1,
+                              }}
+                            >
+                              <Typography
+                                variant="body1"
+                                sx={{
+                                  cursor: "pointer",
+                                  textAlign: "center",
+                                  marginBottom: 1,
+                                  color: darkMode ? "#81d4fa" : "#00796b",
+                                }}
+                                onClick={() =>
+                                  handleEvolutionClick(evolution.species_url)
+                                }
+                              >
+                                {evolution.species_name}
+                              </Typography>
+                              {evolution.min_level && (
+                                <Typography
+                                  variant="body2"
+                                  sx={{ textAlign: "center" }}
+                                >
+                                  進化レベル: {evolution.min_level}
+                                </Typography>
+                              )}
+                              {!evolution.min_level &&
+                                evolution.trigger_name && (
+                                  <Typography
+                                    variant="body2"
+                                    sx={{ textAlign: "center" }}
+                                  >
+                                    進化方法: {evolution.trigger_name}
+                                  </Typography>
+                                )}
+                            </Box>
+                          ))}
+                        </Box>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                )}
+              </Grid>
             </Grid>
-          </Grid>
-        ) : (
-          <Typography variant="h4" align="center">
-            ローディング中...
-          </Typography>
-        )}
-      </Box>
-    </Container>
+          ) : (
+            <Typography variant="h6" align="center" sx={{ marginTop: 4 }}>
+              ポケモンのデータを読み込んでいます...
+            </Typography>
+          )}
+        </Box>
+      </Container>
+    </ThemeProvider>
   );
 }
 
