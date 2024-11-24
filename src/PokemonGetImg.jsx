@@ -28,39 +28,46 @@ function PokemonGetImg() {
     setInputValue(event.target.value);
   };
 
-  const fetchPokemons = async (ids) => {
+  const fetchPokemons = async (inputs) => {
     try {
-      const pokemonPromises = ids.map(async (id) => {
-        const response = await axios.get(
-          `https://pokeapi.co/api/v2/pokemon/${id}`
-        );
-        const { sprites } = response.data;
+      const pokemonPromises = inputs.map(async (input) => {
+        try {
+          const response = await axios.get(
+            `https://pokeapi.co/api/v2/pokemon/${input.toLowerCase()}`
+          );
+          const { sprites } = response.data;
 
-        const speciesResponse = await axios.get(
-          `https://pokeapi.co/api/v2/pokemon-species/${id}`
-        );
-        const japaneseName = speciesResponse.data.names.find(
-          (n) => n.language.name === "ja"
-        )?.name;
+          const speciesResponse = await axios.get(
+            `https://pokeapi.co/api/v2/pokemon-species/${response.data.id}`
+          );
+          const japaneseName = speciesResponse.data.names.find(
+            (n) => n.language.name === "ja"
+          )?.name;
 
-        return {
-          id: response.data.id,
-          name: japaneseName || response.data.name,
-          image: sprites.front_default,
-        };
+          return {
+            id: response.data.id,
+            name: japaneseName || response.data.name,
+            image: sprites.front_default,
+          };
+        } catch (error) {
+          console.error(`${input} に対応するポケモンが見つかりません`, error);
+          return null;
+        }
       });
 
       const results = await Promise.all(pokemonPromises);
-
       return results.filter((pokemon) => pokemon !== null);
     } catch (error) {
-      console.error("ポケモンの取得に失敗しました", error);
+      console.error("ポケモンの取得中にエラーが発生しました", error);
+      return [];
     }
   };
 
   const handleSearch = async () => {
-    const ids = inputValue.split(",").map((item) => item.trim());
-    const newPokemon = await fetchPokemons(ids);
+    const inputs = inputValue
+      .split(",")
+      .map((item) => item.trim().toLowerCase());
+    const newPokemon = await fetchPokemons(inputs);
     setPokemons(newPokemon);
   };
 
@@ -117,7 +124,8 @@ function PokemonGetImg() {
 
             <Grid item xs={12} align="center">
               <Typography>
-                ポケモンのIDか名前(英語)をカンマ区切りで入力（例: 1, 4, 25）
+                ポケモンのIDか名前(英語)をカンマ区切りで入力（例: 1, 4, 25,
+                pikachu）
               </Typography>
             </Grid>
             <Grid item xs={12} md={6} align="right">
