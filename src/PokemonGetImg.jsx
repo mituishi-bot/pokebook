@@ -18,16 +18,22 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 function PokemonGetImg() {
+  //UIの名前とidを保持
   const [inputValue, setInputValue] = useState("");
+  //ポケモンの画像
   const [pokemons, setPokemons] = useState([]);
+  //読み込むポケモンのid
   const [nextId, setNextId] = useState(1);
+  //ローディング
   const [loading, setLoading] = useState(false);
+  //ダークモード
   const [darkMode, setDarkMode] = useState(false);
 
   const handleChange = (event) => {
     setInputValue(event.target.value);
   };
 
+  //ポケモンの所得
   const fetchPokemons = async (inputs) => {
     try {
       const pokemonPromises = inputs.map(async (input) => {
@@ -63,6 +69,7 @@ function PokemonGetImg() {
     }
   };
 
+  //検索機能
   const handleSearch = async () => {
     const inputs = inputValue
       .split(",")
@@ -71,6 +78,7 @@ function PokemonGetImg() {
     setPokemons(newPokemon);
   };
 
+  //もっと読み込む
   const handleLoadMore = async () => {
     setLoading(true);
     const ids = Array.from({ length: 30 }, (_, i) => nextId + i);
@@ -79,6 +87,16 @@ function PokemonGetImg() {
     setPokemons((prevPokemons) => [...prevPokemons, ...loading]);
 
     setNextId(nextId + 30);
+    setLoading(false);
+  };
+
+  //初期化ボタン用
+  const handleReset = async () => {
+    setLoading(true);
+    const initialIds = Array.from({ length: 30 }, (_, i) => i + 1);
+    const resetPokemons = await fetchPokemons(initialIds.map(String));
+    setPokemons(resetPokemons);
+    setNextId(31);
     setLoading(false);
   };
 
@@ -91,10 +109,12 @@ function PokemonGetImg() {
     })();
   }, []);
 
+  //ページトップへの機能
   const handleScrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  //ダークモード
   const theme = createTheme({
     palette: {
       mode: darkMode ? "dark" : "light",
@@ -186,13 +206,22 @@ function PokemonGetImg() {
               </Stack>
 
               <Grid item xs={12} align="center" marginTop={2}>
-                <Button
-                  variant="contained"
-                  onClick={handleLoadMore}
-                  disabled={loading}
-                >
-                  {loading ? "読み込み中..." : "もっと読み込む"}
-                </Button>
+                <Stack direction="row" spacing={2} justifyContent="center">
+                  <Button
+                    variant="contained"
+                    onClick={handleLoadMore}
+                    disabled={loading}
+                  >
+                    {loading ? "読み込み中..." : "もっと読み込む"}
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    color="error"
+                    onClick={handleReset}
+                  >
+                    初期化
+                  </Button>
+                </Stack>
               </Grid>
             </Grid>
 

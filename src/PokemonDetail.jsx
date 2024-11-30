@@ -192,6 +192,7 @@ function PokemonDetail() {
     fetchPokemon();
   }, [id]);
 
+  //進化したポケモンをクリックしたら詳細ページに飛ぶ
   const handleEvolutionClick = (url) => {
     const pokemonId = url.split("/").slice(-2, -1)[0];
     navigate(`/pokemon/${pokemonId}`);

@@ -1,3 +1,4 @@
+/*ポケモンの詳細情報 */
 body {
   font-family: Arial, sans-serif;
   text-align: center;
@@ -6,19 +7,16 @@ body {
   padding: 0;
 }
 
+/*題名の背景*/
 h1 {
   font-size: 3rem;
-  color: #ffcb05; 
+  color: #ffcb05;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   margin-top: 10px;
   font-weight: bold;
   background-color: #003a70;
   padding: 20px;
-  border-radius: 10px; 
-}
-
-#content {
-  margin-top: 0px;
+  border-radius: 10px;
 }
 
 .container {
@@ -59,11 +57,4 @@ button {
 .details-button {
   margin: 8px;
   font-size: 1rem;
-}
-
-.error-message {
-  color: #d32f2f;
-  font-weight: bold;
-  text-align: center;
-  margin-top: 20px;
 }
