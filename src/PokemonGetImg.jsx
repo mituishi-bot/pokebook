@@ -133,33 +133,60 @@ function PokemonGetImg() {
       <Container maxWidth="xl">
         <Box sx={{ flexGrow: 1, padding: 2 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} align="right">
+            <Grid item xs={15} align="right">
               <Button
                 variant="contained"
                 onClick={() => setDarkMode(!darkMode)}
+                sx={{
+                  padding: "8px 5px",
+                  fontSize: "1.25rem",
+                  boxShadow: 3,
+                  borderRadius: "8px",
+                }}
               >
                 {darkMode ? "ライトモードに切り替え" : "ダークモードに切り替え"}
               </Button>
             </Grid>
 
-            <Grid item xs={12} align="center">
-              <Typography>
-                ポケモンのIDか名前(英語)をカンマ区切りで入力（例: 1, 4, 25,
-                pikachu）
-              </Typography>
-            </Grid>
-            <Grid item xs={12} md={6} align="right">
-              <TextField
-                value={inputValue}
-                onChange={handleChange}
-                label="ポケモンのID or ポケモンの名前(英語)"
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={12} md={6} align="left">
-              <Button variant="contained" onClick={handleSearch} fullWidth>
-                ポケモンを検索
-              </Button>
+            <Grid
+              container
+              spacing={2}
+              justifyContent="center"
+              alignItems="center"
+            >
+              <Grid
+                item
+                xs={12}
+                md={8}
+                sx={{ display: "flex", justifyContent: "center" }}
+              >
+                <TextField
+                  value={inputValue}
+                  onChange={handleChange}
+                  label="ポケモンのID or ポケモンの名前(英語)"
+                  fullWidth
+                />
+              </Grid>
+              <Grid
+                item
+                xs={10}
+                md={5}
+                sx={{ display: "flex", justifyContent: "center" }}
+              >
+                <Button
+                  variant="contained"
+                  onClick={handleSearch}
+                  fullWidth
+                  sx={{
+                    padding: "10px 20px",
+                    fontSize: "1.25rem",
+                    boxShadow: 3,
+                    borderRadius: "8px",
+                  }}
+                >
+                  ポケモンを検索
+                </Button>
+              </Grid>
             </Grid>
 
             <Grid item xs={12}>
@@ -229,7 +256,15 @@ function PokemonGetImg() {
               <Button
                 variant="contained"
                 onClick={handleScrollToTop}
-                sx={{ position: "fixed", bottom: 16, left: 16 }}
+                sx={{
+                  position: "fixed",
+                  bottom: 16,
+                  left: 16,
+                  fontSize: "1.25rem",
+                  padding: "15px 25px",
+                  boxShadow: 3,
+                  borderRadius: "12px",
+                }}
               >
                 ページ上部へ
               </Button>

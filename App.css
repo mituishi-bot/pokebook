@@ -12,11 +12,10 @@ h1 {
   font-size: 3rem;
   color: #ffcb05;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  margin-top: 10px;
+  margin-top: 0px;
   font-weight: bold;
   background-color: #003a70;
   padding: 20px;
-  border-radius: 10px;
 }
 
 .container {

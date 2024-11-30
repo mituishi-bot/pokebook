@@ -17,27 +17,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import RadarChart from "./RadarChart";
-
-const typeNames = {
-  bug: "むし",
-  dark: "あく",
-  dragon: "ドラゴン",
-  electric: "でんき",
-  fairy: "フェアリー",
-  fighting: "かくとう",
-  fire: "ほのお",
-  flying: "ひこう",
-  ghost: "ゴースト",
-  grass: "くさ",
-  ground: "じめん",
-  ice: "こおり",
-  normal: "ノーマル",
-  poison: "どく",
-  psychic: "エスパー",
-  rock: "いわ",
-  steel: "はがね",
-  water: "みず",
-};
+import typeNames from "/assets/type.json";
 
 function PokemonDetail() {
   const { id } = useParams();
@@ -212,13 +192,6 @@ function PokemonDetail() {
             <Button
               variant="contained"
               color="primary"
-              onClick={() => setDarkMode((prev) => !prev)}
-            >
-              {darkMode ? "ライトモードに切り替え" : "ダークモードに切り替え"}
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
               onClick={() => navigate("/")}
               size="large"
               sx={{
@@ -229,7 +202,18 @@ function PokemonDetail() {
             >
               戻る
             </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => setDarkMode((prev) => !prev)}
+              sx={{
+                marginLeft: "auto",
+              }}
+            >
+              {darkMode ? "ライトモードに切り替え" : "ダークモードに切り替え"}
+            </Button>
           </Box>
+
           {pokemon ? (
             <Grid container spacing={4}>
               <Grid item xs={12} md={6}>
